@@ -18,6 +18,24 @@ app.get('/', (req, res) => {
     res.send('Your lca-yenza-backend server is running successfully with ES Modules!');
 });
 
+app.get('/api/health', async (req, res) => {
+    try {
+        const [result] = await db.query('Select 1 as connected')
+
+        res.json({
+            success: true,
+            database: result[0].connected === 1
+        })
+    } catch (error) {
+        console.error('Database connection failed', error)
+
+        res.status(500).json({
+            success: false,
+            database: false
+        })
+    }
+})
+
 // Start Server
 app.listen(PORT, () => {
     console.log(`Server is running smoothly on port ${PORT}`);
