@@ -1,40 +1,39 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
-import db from './config/db.js'
+import db from './config/db.js';
+// import bookingRoutes from './routes/bookingRoutes.js'; // ⚠️ match your actual filename
 
-// Initialize configurations
-dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use('/api/bookings', bookingRoutes)
 
-// Your first API test route
+// Routes
+//app.use('/api/services', servicesRoutes);
 app.get('/', (req, res) => {
     res.send('Your backend server is running successfully!');
 });
 
 app.get('/api/health', async (req, res) => {
     try {
-        const [result] = await db.query('Database is connected')
+        const [rows] = await db.query('SELECT 1 AS connected');
 
         res.json({
             success: true,
-            database: result[0].connected === 1
-        })
+            database: rows[0].connected === 1
+        });
     } catch (error) {
-        console.error('Database connection failed', error)
+        console.error('Database connection failed', error);
 
         res.status(500).json({
             success: false,
             database: false
-        })
+        });
     }
-})
+});
 
 // Start Server
 app.listen(PORT, () => {
