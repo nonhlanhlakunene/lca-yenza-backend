@@ -6,22 +6,26 @@ import {
 export const createBookingController = async (req, res) => {
     try {
         const {
-            userId,
-            handymanId,
+            customerId,
+            professionalId,
             serviceId,
             bookingDate,
             bookingTime,
             serviceAddress,
+            city,
+            province,
+            postalCode,
             notes
         } = req.body
 
         if (
-            !userId ||
-            !handymanId ||
+            !customerId ||
+            !professionalId ||
             !serviceId ||
             !bookingDate ||
             !bookingTime ||
-            !serviceAddress
+            !serviceAddress ||
+            !city
         ) {
             return res.status(400).json({
                 success: false,
@@ -30,12 +34,15 @@ export const createBookingController = async (req, res) => {
         }
 
         const bookingId = await createBooking({
-            userId,
-            handymanId,
+            customerId,
+            professionalId,
             serviceId,
             bookingDate,
             bookingTime,
             serviceAddress,
+            city,
+            province,
+            postalCode,
             notes
         })
 
