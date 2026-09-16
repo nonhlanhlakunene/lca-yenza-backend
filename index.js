@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import db from './config/db.js'
+import reportRoutes from './routes/reportRoutes.js'
 
 // Initialize configurations
 dotenv.config();
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/api/reports', reportRoutes)
 // app.use('/api/bookings', bookingRoutes)
 
 // Your first API test route
